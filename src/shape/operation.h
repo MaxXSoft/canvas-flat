@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "shape.h"
+#include "../util/mathutil.h"
 
 namespace cvf::shape {
 
@@ -51,18 +52,18 @@ public:
         switch (opcode_) {
             case Opcode::Union: {
                 auto r1 = opr1_->GetDrawArea(), r2 = opr2_->GetDrawArea();
-                x0 = Min(r1.left, r2.left);
-                y0 = Min(r1.top, r2.top);
-                x1 = Max(r1.right, r2.right);
-                y1 = Max(r1.bottom, r2.bottom);
+                x0 = util::Min(r1.left, r2.left);
+                y0 = util::Min(r1.top, r2.top);
+                x1 = util::Max(r1.right, r2.right);
+                y1 = util::Max(r1.bottom, r2.bottom);
                 break;
             }
             case Opcode::Intersection: {
                 auto r1 = opr1_->GetDrawArea(), r2 = opr2_->GetDrawArea();
-                x0 = Max(r1.left, r2.left);
-                y0 = Max(r1.top, r2.top);
-                x1 = Min(r1.right, r2.right);
-                y1 = Min(r1.bottom, r2.bottom);
+                x0 = util::Max(r1.left, r2.left);
+                y0 = util::Max(r1.top, r2.top);
+                x1 = util::Min(r1.right, r2.right);
+                y1 = util::Min(r1.bottom, r2.bottom);
                 break;
             }
             case Opcode::Difference: {
@@ -78,10 +79,10 @@ public:
                 CoordMapping(tx1, ty1, true);
                 CoordMapping(tx2, ty2, true);
                 CoordMapping(tx3, ty3, true);
-                x0 = std::floorf(Min4f(tx0, tx1, tx2, tx3));
-                y0 = std::floorf(Min4f(ty0, ty1, ty2, ty3));
-                x1 = std::ceilf(Max4f(tx0, tx1, tx2, tx3));
-                y1 = std::ceilf(Max4f(ty0, ty1, ty2, ty3));
+                x0 = std::floorf(util::Min(tx0, tx1, tx2, tx3));
+                y0 = std::floorf(util::Min(ty0, ty1, ty2, ty3));
+                x1 = std::ceilf(util::Max(tx0, tx1, tx2, tx3));
+                y1 = std::ceilf(util::Max(ty0, ty1, ty2, ty3));
                 break;
             }
             case Opcode::Scale: {
@@ -101,15 +102,6 @@ public:
     }
 
 private:
-    int Min(int a, int b) const { return a < b ? a : b; }
-    int Max(int a, int b) const { return a > b ? a : b; }
-    float Min4f(float a, float b, float c, float d) const {
-        return std::fminf(std::fminf(std::fminf(a, b), c), d);
-    }
-    float Max4f(float a, float b, float c, float d) const {
-        return std::fmaxf(std::fmaxf(std::fmaxf(a, b), c), d);
-    }
-
     // !reverse: processed -> orignal
     //  reverse: orignal   -> processed
     void CoordMapping(float &x, float &y, bool reverse = false) const {

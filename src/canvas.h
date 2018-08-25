@@ -7,6 +7,7 @@
 
 #include "color.h"
 #include "shape/shape.h"
+#include "util/mathutil.h"
 
 namespace cvf {
 
@@ -87,7 +88,7 @@ private:
         auto sdf = shape->GetSDF(x, y);
         auto color = shape->color();
         if (anti_aliasing_) {
-            auto alpha = std::fmaxf(std::fminf(0.5F - sdf, 1.F), 0.F);
+            auto alpha = util::LinearMapping(sdf, -0.5, 0.5, 1, 0);
             return Color(color.GetRGB(), color.alpha * alpha);
         }
         else {
