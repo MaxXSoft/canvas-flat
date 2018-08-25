@@ -5,6 +5,8 @@
 
 #include "shape.h"
 
+namespace cvf::shape {
+
 class Operation : public Shape {
 public:
     enum class Opcode : char {
@@ -140,5 +142,7 @@ private:
     ShapePtr opr1_, opr2_;
     float center_x_, center_y_, param_;
 };
+
+} // namespace cvf::shape
 
 #endif // SHAPE_OPERATION_H_

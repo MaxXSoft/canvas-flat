@@ -5,6 +5,8 @@
 #include <cmath>
 #include <limits>
 
+namespace cvf {
+
 struct Color {
 public:
     using Color8b = unsigned char;
@@ -65,5 +67,7 @@ private:
                 * std::numeric_limits<float>::epsilon();
     }
 };
+
+} // namespace cvf
 
 #endif // COLOR_H_

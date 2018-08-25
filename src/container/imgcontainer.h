@@ -4,6 +4,8 @@
 #include <fstream>
 #include <memory>
 
+namespace cvf::container {
+
 class ImageContainer {
 public:
     virtual ~ImageContainer() = default;
@@ -31,5 +33,7 @@ protected:
 };
 
 using ImageContainerPtr = std::unique_ptr<ImageContainer>;
+
+} // namespace cvf::container
 
 #endif // CONTAINER_IMGCONTAINER_H_

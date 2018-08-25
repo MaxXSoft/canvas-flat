@@ -5,6 +5,8 @@
 
 #include "shape.h"
 
+namespace cvf::shape {
+
 class Squircle : public Shape {
 public:
     Squircle(float center_x, float center_y, float r)
@@ -31,5 +33,7 @@ public:
 private:
     float center_x_, center_y_, r_, order_;
 };
+
+} // namespace cvf::shape
 
 #endif // SHAPE_SQUIRCLE_H_

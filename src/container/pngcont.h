@@ -7,6 +7,8 @@
 #define SVPNG_PUT(u) ofs.put(u)
 #include "png/svpng.inc"
 
+namespace cvf::container {
+
 class PngContainer : public ImageContainer {
 public:
     PngContainer() : ImageContainer() {}
@@ -18,5 +20,7 @@ protected:
         }
     }
 };
+
+} // namespace cvf::container
 
 #endif // CONTAINER_PNGCONT_H_

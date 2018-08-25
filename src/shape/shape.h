@@ -5,6 +5,8 @@
 
 #include "../color.h"
 
+namespace cvf::shape {
+
 struct Rect {
     Rect() : left(0), top(0), right(0), bottom(0) {}
     Rect(int left, int top, int right, int bottom)
@@ -27,5 +29,7 @@ protected:
 };
 
 using ShapePtr = std::shared_ptr<Shape>;
+
+} // namespace cvf::shape
 
 #endif // SHAPE_SHAPE_H_

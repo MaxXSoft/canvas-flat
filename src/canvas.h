@@ -8,6 +8,8 @@
 #include "color.h"
 #include "shape/shape.h"
 
+namespace cvf {
+
 template <class ImgContainer>
 class Canvas {
 public:
@@ -54,7 +56,7 @@ public:
         img.Export(path);
     }
 
-    void AddShape(const ShapePtr &shape) { shapes_.push_back(shape); }
+    void AddShape(const shape::ShapePtr &shape) { shapes_.push_back(shape); }
     void ClearShape() { shapes_.clear(); }
 
     void set_size(int width, int height) {
@@ -72,7 +74,7 @@ public:
     bool anti_aliasing() const { return anti_aliasing_; }
     const Color &backcolor() const { return backcolor_; }
     const Color::Color8b *pixel() const { return image_buffer_.data(); }
-    const std::vector<ShapePtr> &shapes() const { return shapes_; }
+    const std::vector<shape::ShapePtr> &shapes() const { return shapes_; }
 
 private:
     using ImageBuffer = std::vector<Color::Color8b>;
@@ -81,7 +83,7 @@ private:
         x = static_cast<Color::Color8b>(x * (1 - alpha) + y * alpha);
     }
 
-    Color GetPixel(float x, float y, const ShapePtr &shape) {
+    Color GetPixel(float x, float y, const shape::ShapePtr &shape) {
         auto sdf = shape->GetSDF(x, y);
         auto color = shape->color();
         if (anti_aliasing_) {
@@ -97,7 +99,9 @@ private:
     bool anti_aliasing_;
     Color backcolor_;
     ImageBuffer image_buffer_;
-    std::vector<ShapePtr> shapes_;
+    std::vector<shape::ShapePtr> shapes_;
 };
+
+} // namespace cvf
 
 #endif // CANVAS_H_

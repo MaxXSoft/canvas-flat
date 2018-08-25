@@ -5,6 +5,8 @@
 
 #include "shape.h"
 
+namespace cvf::shape {
+
 class Capsule : public Shape {
 public:
     Capsule(float x0, float y0, float x1, float y1, float r)
@@ -29,5 +31,7 @@ public:
 private:
     float x0_, y0_, x1_, y1_, r_;
 };
+
+} // namespace cvf::shape
 
 #endif // SHAPE_CAPSULE_H_

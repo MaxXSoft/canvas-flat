@@ -5,6 +5,8 @@
 
 #include "shape.h"
 
+namespace cvf::shape {
+
 class Circle : public Shape {
 public:
     Circle(float center_x, float center_y, float r)
@@ -26,5 +28,7 @@ public:
 private:
     float center_x_, center_y_, r_;
 };
+
+} // namespace cvf::shape
 
 #endif // SHAPE_CIRCLE_H_

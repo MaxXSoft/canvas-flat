@@ -5,6 +5,8 @@
 
 #include "shape.h"
 
+namespace cvf::shape {
+
 class Rectangle : public Shape {
 public:
     Rectangle(float x0, float y0, float width, float height)
@@ -41,5 +43,7 @@ public:
 private:
     float x0_, y0_, width_, height_;
 };
+
+} // namespace cvf::shape
 
 #endif // SHAPE_RECTANGLE_H_
