@@ -12,7 +12,7 @@ class Operation : public Shape {
 public:
     enum class Opcode : char {
         Union, Intersection, Difference,
-        Rotate, Scale
+        Rotate, Scale, Round
     };
 
     Operation(Opcode opcode, ShapePtr opr1, ShapePtr opr2)
@@ -36,13 +36,12 @@ public:
             case Opcode::Difference: {
                 return std::fmaxf(opr1_->GetSDF(x, y), -opr2_->GetSDF(x, y));
             }
-            case Opcode::Rotate: {
+            case Opcode::Rotate: case Opcode::Scale: {
                 CoordMapping(x, y);
                 return opr1_->GetSDF(x, y);
             }
-            case Opcode::Scale: {
-                CoordMapping(x, y);
-                return opr1_->GetSDF(x, y);
+            case Opcode::Round: {
+                return opr1_->GetSDF(x, y) - param_;
             }
         }
     }
@@ -91,6 +90,20 @@ public:
                 float tx1 = area.right, ty1 = area.bottom;
                 CoordMapping(tx0, ty0, true);
                 CoordMapping(tx1, ty1, true);
+                x0 = std::floorf(tx0);
+                y0 = std::floorf(ty0);
+                x1 = std::ceilf(tx1);
+                y1 = std::ceilf(ty1);
+                break;
+            }
+            case Opcode::Round: {
+                auto area = opr1_->GetDrawArea();
+                float tx0 = area.left, ty0 = area.top;
+                float tx1 = area.right, ty1 = area.bottom;
+                tx0 -= param_;
+                ty0 -= param_;
+                tx1 += param_;
+                ty1 += param_;
                 x0 = std::floorf(tx0);
                 y0 = std::floorf(ty0);
                 x1 = std::ceilf(tx1);
