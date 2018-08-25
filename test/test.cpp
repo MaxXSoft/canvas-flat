@@ -2,14 +2,17 @@
 #include <ctime>
 #include <cstdlib>
 
-#include "canvas.h"
-#include "container/pngcont.h"
+#include "../src/canvas.h"
+#include "../src/container/pngcont.h"
+#include "../src/shape/circle.h"
+#include "../src/shape/squircle.h"
+#include "../src/shape/rectangle.h"
+#include "../src/shape/capsule.h"
+#include "../src/shape/operation.h"
 
-#include "shape/circle.h"
-#include "shape/squircle.h"
-#include "shape/rectangle.h"
-#include "shape/capsule.h"
-#include "shape/operation.h"
+using namespace cvf;
+using namespace cvf::shape;
+using namespace cvf::container;
 
 Color GetRandColor(bool greyscale = false, bool opaque = false) {
     auto alpha = opaque ? 1.F : (std::rand() % 100 + 1) / 100.F;
@@ -40,6 +43,6 @@ int main(int argc, const char *argv[]) {
     }
     // draw & export
     canvas.Redraw();
-    canvas.Export();
+    canvas.Export(argc > 1 ? argv[1] : "export.png");
     return 0;
 }
