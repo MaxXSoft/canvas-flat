@@ -10,26 +10,19 @@ namespace cvf::shape {
 class Rectangle : public Shape {
 public:
     Rectangle(float x0, float y0, float width, float height)
-            : x0_(x0), y0_(y0), width_(width), height_(height) {}
+            : x0_(x0), y0_(y0), width_(width), height_(height) {
+        InitParam();
+    }
     Rectangle(float x0, float y0, float side)
-            : x0_(x0), y0_(y0), width_(side), height_(side) {}
+            : x0_(x0), y0_(y0), width_(side), height_(side) {
+        InitParam();
+    }
 
     float GetSDF(float x, float y) const override {
-        auto center_x = x0_ + width_ / 2, center_y = y0_ + height_ / 2;
-        auto dx = std::fabsf(x - center_x) - width_;
-        auto dy = std::fabsf(y - center_y) - height_;
+        auto dx = std::fabsf(x - cx_) - sx_, ax = std::fmaxf(dx, 0.F);
+        auto dy = std::fabsf(y - cy_) - sy_, ay = std::fmaxf(dy, 0.F);
         return std::fminf(std::fmaxf(dx, dy), 0.F)
-                + std::sqrtf(std::powf(std::fmaxf(dx, 0.F), 2.F)
-                + std::powf(std::fmaxf(dy, 0.F), 2.F));
-        // bool in_rect = x >= x0_ && x <= x0_ + width_
-        //         && y >= y0_ && y <= y0_ + height_;
-        // auto d_left = std::fabsf(x - x0_);
-        // auto d_right = std::fabsf(x - x0_ - width_);
-        // auto d_top = std::fabsf(y - y0_);
-        // auto d_bottom = std::fabsf(y - y0_ - height_);
-        // auto d = std::fminf(std::fminf(
-        //         std::fminf(d_left, d_right), d_top), d_bottom);
-        // return in_rect ? -d : d;
+                + std::sqrtf(ax * ax + ay * ay);
     }
 
     Rect GetDrawArea() const override {
@@ -41,7 +34,15 @@ public:
     }
 
 private:
+    void InitParam() {
+        sx_ = width_ / 2;
+        sy_ = width_ / 2;
+        cx_ = x0_ + sx_;
+        cy_ = y0_ + sy_;
+    }
+
     float x0_, y0_, width_, height_;
+    float cx_, cy_, sx_, sy_;
 };
 
 } // namespace cvf::shape
