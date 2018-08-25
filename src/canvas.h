@@ -1,5 +1,5 @@
-#ifndef CANVAS_H_
-#define CANVAS_H_
+#ifndef CANVASFLAT_CANVAS_H_
+#define CANVASFLAT_CANVAS_H_
 
 #include <fstream>
 #include <vector>
@@ -104,4 +104,4 @@ private:
 
 } // namespace cvf
 
-#endif // CANVAS_H_
+#endif // CANVASFLAT_CANVAS_H_

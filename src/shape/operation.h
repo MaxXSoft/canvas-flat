@@ -1,5 +1,5 @@
-#ifndef SHAPE_OPERATION_H_
-#define SHAPE_OPERATION_H_
+#ifndef CANVASFLAT_SHAPE_OPERATION_H_
+#define CANVASFLAT_SHAPE_OPERATION_H_
 
 #include <cmath>
 
@@ -145,4 +145,4 @@ private:
 
 } // namespace cvf::shape
 
-#endif // SHAPE_OPERATION_H_
+#endif // CANVASFLAT_SHAPE_OPERATION_H_

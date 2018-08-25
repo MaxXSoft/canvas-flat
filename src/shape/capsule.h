@@ -1,5 +1,5 @@
-#ifndef SHAPE_CAPSULE_H_
-#define SHAPE_CAPSULE_H_
+#ifndef CANVASFLAT_SHAPE_CAPSULE_H_
+#define CANVASFLAT_SHAPE_CAPSULE_H_
 
 #include <cmath>
 
@@ -34,4 +34,4 @@ private:
 
 } // namespace cvf::shape
 
-#endif // SHAPE_CAPSULE_H_
+#endif // CANVASFLAT_SHAPE_CAPSULE_H_

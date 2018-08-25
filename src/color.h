@@ -1,5 +1,5 @@
-#ifndef COLOR_H_
-#define COLOR_H_
+#ifndef CANVASFLAT_COLOR_H_
+#define CANVASFLAT_COLOR_H_
 
 #include <cstddef>
 #include <cmath>
@@ -70,4 +70,4 @@ private:
 
 } // namespace cvf
 
-#endif // COLOR_H_
+#endif // CANVASFLAT_COLOR_H_

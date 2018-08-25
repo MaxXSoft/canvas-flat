@@ -1,5 +1,5 @@
-#ifndef SHAPE_CIRCLE_H_
-#define SHAPE_CIRCLE_H_
+#ifndef CANVASFLAT_SHAPE_CIRCLE_H_
+#define CANVASFLAT_SHAPE_CIRCLE_H_
 
 #include <cmath>
 
@@ -31,4 +31,4 @@ private:
 
 } // namespace cvf::shape
 
-#endif // SHAPE_CIRCLE_H_
+#endif // CANVASFLAT_SHAPE_CIRCLE_H_

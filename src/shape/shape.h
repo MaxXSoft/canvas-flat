@@ -1,5 +1,5 @@
-#ifndef SHAPE_SHAPE_H_
-#define SHAPE_SHAPE_H_
+#ifndef CANVASFLAT_SHAPE_SHAPE_H_
+#define CANVASFLAT_SHAPE_SHAPE_H_
 
 #include <memory>
 
@@ -32,4 +32,4 @@ using ShapePtr = std::shared_ptr<Shape>;
 
 } // namespace cvf::shape
 
-#endif // SHAPE_SHAPE_H_
+#endif // CANVASFLAT_SHAPE_SHAPE_H_

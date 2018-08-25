@@ -1,5 +1,5 @@
-#ifndef CONTAINER_IMGCONTAINER_H_
-#define CONTAINER_IMGCONTAINER_H_
+#ifndef CANVASFLAT_CONTAINER_IMGCONTAINER_H_
+#define CANVASFLAT_CONTAINER_IMGCONTAINER_H_
 
 #include <fstream>
 #include <memory>
@@ -36,4 +36,4 @@ using ImageContainerPtr = std::unique_ptr<ImageContainer>;
 
 } // namespace cvf::container
 
-#endif // CONTAINER_IMGCONTAINER_H_
+#endif // CANVASFLAT_CONTAINER_IMGCONTAINER_H_

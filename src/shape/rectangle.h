@@ -1,5 +1,5 @@
-#ifndef SHAPE_RECTANGLE_H_
-#define SHAPE_RECTANGLE_H_
+#ifndef CANVASFLAT_SHAPE_RECTANGLE_H_
+#define CANVASFLAT_SHAPE_RECTANGLE_H_
 
 #include <cmath>
 
@@ -46,4 +46,4 @@ private:
 
 } // namespace cvf::shape
 
-#endif // SHAPE_RECTANGLE_H_
+#endif // CANVASFLAT_SHAPE_RECTANGLE_H_

@@ -1,5 +1,5 @@
-#ifndef SHAPE_SQUIRCLE_H_
-#define SHAPE_SQUIRCLE_H_
+#ifndef CANVASFLAT_SHAPE_SQUIRCLE_H_
+#define CANVASFLAT_SHAPE_SQUIRCLE_H_
 
 #include <cmath>
 
@@ -36,4 +36,4 @@ private:
 
 } // namespace cvf::shape
 
-#endif // SHAPE_SQUIRCLE_H_
+#endif // CANVASFLAT_SHAPE_SQUIRCLE_H_

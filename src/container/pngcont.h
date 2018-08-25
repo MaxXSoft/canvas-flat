@@ -1,5 +1,5 @@
-#ifndef CONTAINER_PNGCONT_H_
-#define CONTAINER_PNGCONT_H_
+#ifndef CANVASFLAT_CONTAINER_PNGCONT_H_
+#define CANVASFLAT_CONTAINER_PNGCONT_H_
 
 #include "imgcontainer.h"
 
@@ -23,4 +23,4 @@ protected:
 
 } // namespace cvf::container
 
-#endif // CONTAINER_PNGCONT_H_
+#endif // CANVASFLAT_CONTAINER_PNGCONT_H_
