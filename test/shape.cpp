@@ -17,7 +17,7 @@ int main(int argc, const char *argv[]) {
     canvas.set_anti_aliasing(true);
     // create a squircle
     auto cx = canvas.width() / 2, cy = canvas.height() / 2;
-    auto r = util::Min(cx, cy) * 3.F / 2.5F;
+    auto r = Min(cx, cy) * 3.F / 2.5F;
     auto s1 = std::make_shared<Squircle>(cx, cy, r);
     // generate canvas
     auto last_rgb = canvas.backcolor().GetRGB();

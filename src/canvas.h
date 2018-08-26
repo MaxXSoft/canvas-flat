@@ -17,6 +17,7 @@ public:
     Canvas(int width, int height) : backcolor_(0U) {
         set_size(width, height);
         anti_aliasing_ = false;
+        image_container_.ReadBuffer(pixel(), width_, height_);
     }
 
     void Redraw() {
@@ -50,9 +51,7 @@ public:
     }
 
     void Export(const char *path) {
-        ImgContainer img;
-        img.ReadBuffer(pixel(), width_, height_);
-        img.Export(path);
+        image_container_.Export(path);
     }
 
     void AddShape(const shape::ShapePtr &shape) { shapes_.push_back(shape); }
@@ -97,8 +96,9 @@ private:
     int width_, height_;
     bool anti_aliasing_;
     Color backcolor_;
-    ImageBuffer image_buffer_;
     std::vector<shape::ShapePtr> shapes_;
+    ImageBuffer image_buffer_;
+    ImgContainer image_container_;
 };
 
 } // namespace cvf
