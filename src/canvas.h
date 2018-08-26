@@ -32,8 +32,6 @@ public:
         // draw shapes
         for (const auto &i : shapes_) {
             auto area = i->GetDrawArea();
-            // for (int y = 0; y < 512; ++y) {
-            //     for (int x = 0; x < 512; ++x) {
             for (int y = area.top; y <= area.bottom; ++y) {
                 for (int x = area.left; x <= area.right; ++x) {
                     if (x < 0 || y < 0 || x >= width_ || y >= height_) {
@@ -51,7 +49,7 @@ public:
         }
     }
 
-    void Export(const char *path = "export.png") {
+    void Export(const char *path) {
         ImgContainer img;
         img.ReadBuffer(pixel(), width_, height_);
         img.Export(path);
