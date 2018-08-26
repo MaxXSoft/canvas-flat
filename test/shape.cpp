@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "../src/canvas.h"
 #include "../src/container/pngcont.h"
 #include "../src/util/mathutil.h"
@@ -28,7 +26,7 @@ int main(int argc, const char *argv[]) {
         temp = std::make_shared<Operation>
                 (Operation::Opcode::Scale, temp, 0.9);
         temp = std::make_shared<Operation>
-                (Operation::Opcode::Rotate, temp, util::PI / 12);
+                (Operation::Opcode::Rotate, temp, PI / 12);
         temp->set_color(last_rgb -= 0x123123);
         canvas.AddShape(temp);
     }
