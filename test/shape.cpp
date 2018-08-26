@@ -4,10 +4,7 @@
 #include "../src/container/pngcont.h"
 #include "../src/util/mathutil.h"
 
-#include "../src/shape/circle.h"
 #include "../src/shape/squircle.h"
-#include "../src/shape/rectangle.h"
-#include "../src/shape/capsule.h"
 #include "../src/shape/operation.h"
 
 using namespace cvf;
