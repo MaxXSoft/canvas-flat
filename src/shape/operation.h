@@ -36,9 +36,13 @@ public:
             case Opcode::Difference: {
                 return std::fmaxf(opr1_->GetSDF(x, y), -opr2_->GetSDF(x, y));
             }
-            case Opcode::Rotate: case Opcode::Scale: {
+            case Opcode::Rotate: {
                 CoordMapping(x, y);
                 return opr1_->GetSDF(x, y);
+            }
+            case Opcode::Scale: {
+                CoordMapping(x, y);
+                return opr1_->GetSDF(x, y) * param_;
             }
             case Opcode::Round: {
                 return opr1_->GetSDF(x, y) - param_;
