@@ -4,20 +4,21 @@
 #include <fstream>
 #include <vector>
 #include <cmath>
+#include <utility>
 
 #include "color.h"
+#include "container/imgcontainer.h"
+#include "render/render.h"
 #include "shape/shape.h"
 #include "util/mathutil.h"
 
 namespace cvf {
 
-template <class ImgContainer>
 class Canvas {
 public:
     Canvas(int width, int height) : backcolor_(0U) {
         set_size(width, height);
         anti_aliasing_ = false;
-        image_container_.ReadBuffer(pixel(), width_, height_);
     }
 
     void Redraw() {
@@ -51,10 +52,15 @@ public:
     }
 
     void Export(const char *path) {
-        image_container_.Export(path);
+        // reset the buffer info to prevent width & height changes
+        image_container_->ReadBuffer(pixel(), width_, height_);
+        image_container_->Export(path);
     }
 
-    void AddShape(const shape::ShapePtr &shape) { shapes_.push_back(shape); }
+    int AddShape(const shape::ShapePtr &shape) {
+        shapes_.push_back(shape);
+        return shapes_.size() - 1;
+    }
     void ClearShape() { shapes_.clear(); }
 
     void set_size(int width, int height) {
@@ -66,13 +72,19 @@ public:
         anti_aliasing_ = anti_aliasing;
     }
     void set_backcolor(const Color &backcolor) { backcolor_ = backcolor; }
+    void set_image_container(container::ImageContainerPtr image_container) {
+        image_container_ = std::move(image_container);
+    }
+    void set_render(render::RenderPtr render) {
+        render_ = std::move(render);
+    }
 
     int width() const { return width_; }
     int height() const { return height_; }
     bool anti_aliasing() const { return anti_aliasing_; }
     const Color &backcolor() const { return backcolor_; }
     const Color::Color8b *pixel() const { return image_buffer_.data(); }
-    const std::vector<shape::ShapePtr> &shapes() const { return shapes_; }
+    const shape::ShapeList &shapes() const { return shapes_; }
 
 private:
     using ImageBuffer = std::vector<Color::Color8b>;
@@ -96,9 +108,10 @@ private:
     int width_, height_;
     bool anti_aliasing_;
     Color backcolor_;
-    std::vector<shape::ShapePtr> shapes_;
+    shape::ShapeList shapes_;
     ImageBuffer image_buffer_;
-    ImgContainer image_container_;
+    container::ImageContainerPtr image_container_;
+    render::RenderPtr render_;
 };
 
 } // namespace cvf

@@ -2,6 +2,7 @@
 #define CANVASFLAT_SHAPE_SHAPE_H_
 
 #include <memory>
+#include <vector>
 
 #include "../color.h"
 
@@ -29,6 +30,7 @@ protected:
 };
 
 using ShapePtr = std::shared_ptr<Shape>;
+using ShapeList = std::vector<ShapePtr>;
 
 } // namespace cvf::shape
 
