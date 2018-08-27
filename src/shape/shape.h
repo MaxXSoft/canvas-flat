@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "../color.h"
+#include "../color/color.h"
 
 namespace cvf::shape {
 

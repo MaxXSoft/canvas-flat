@@ -6,7 +6,7 @@
 #include <cmath>
 #include <utility>
 
-#include "color.h"
+#include "color/color.h"
 #include "container/imgcontainer.h"
 #include "render/render.h"
 #include "shape/shape.h"
