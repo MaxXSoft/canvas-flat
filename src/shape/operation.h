@@ -12,7 +12,8 @@ class Operation : public Shape {
 public:
     enum class Opcode : char {
         Union, Intersection, Difference,
-        Rotate, Scale, Round
+        Rotate, Scale, Round, Blur, Outline,
+        OffsetX, OffsetY   // TODO
     };
 
     Operation(Opcode opcode, ShapePtr opr1, ShapePtr opr2)
@@ -28,15 +29,15 @@ public:
     float GetSDF(float x, float y) const override {
         switch (opcode_) {
             case Opcode::Union: {
-                return std::fminf(opr1_->GetSDF(x, y), opr2_->GetSDF(x, y));
+                return util::Min(opr1_->GetSDF(x, y), opr2_->GetSDF(x, y));
             }
             case Opcode::Intersection: {
-                return std::fmaxf(opr1_->GetSDF(x, y), opr2_->GetSDF(x, y));
+                return util::Max(opr1_->GetSDF(x, y), opr2_->GetSDF(x, y));
             }
             case Opcode::Difference: {
-                return std::fmaxf(opr1_->GetSDF(x, y), -opr2_->GetSDF(x, y));
+                return util::Max(opr1_->GetSDF(x, y), -opr2_->GetSDF(x, y));
             }
-            case Opcode::Rotate: {
+            case Opcode::Rotate: case Opcode::OffsetX: case Opcode::OffsetY: {
                 CoordMapping(x, y);
                 return opr1_->GetSDF(x, y);
             }
@@ -46,6 +47,15 @@ public:
             }
             case Opcode::Round: {
                 return opr1_->GetSDF(x, y) - param_;
+            }
+            case Opcode::Blur: {
+                auto sdf = opr1_->GetSDF(x, y);
+                return util::LinearMapping(sdf, -0.5 * param_, 0.5, -0.5, 0.5);
+            }
+            case Opcode::Outline: {
+                auto outer = opr1_->GetSDF(x, y) - param_ / 2;
+                auto inner = opr1_->GetSDF(x, y) + param_ / 2;
+                return util::Max(outer, -inner);
             }
         }
     }
@@ -69,7 +79,7 @@ public:
                 y1 = util::Min(r1.bottom, r2.bottom);
                 break;
             }
-            case Opcode::Difference: {
+            case Opcode::Difference: case Opcode::Blur: {
                 return opr1_->GetDrawArea();
             }
             case Opcode::Rotate: {
@@ -88,7 +98,7 @@ public:
                 y1 = std::ceilf(util::Max(ty0, ty1, ty2, ty3));
                 break;
             }
-            case Opcode::Scale: {
+            case Opcode::Scale: case Opcode::OffsetX: case Opcode::OffsetY: {
                 auto area = opr1_->GetDrawArea();
                 float tx0 = area.left, ty0 = area.top;
                 float tx1 = area.right, ty1 = area.bottom;
@@ -108,6 +118,20 @@ public:
                 ty0 -= param_;
                 tx1 += param_;
                 ty1 += param_;
+                x0 = std::floorf(tx0);
+                y0 = std::floorf(ty0);
+                x1 = std::ceilf(tx1);
+                y1 = std::ceilf(ty1);
+                break;
+            }
+            case Opcode::Outline: {
+                auto area = opr1_->GetDrawArea();
+                float tx0 = area.left, ty0 = area.top;
+                float tx1 = area.right, ty1 = area.bottom;
+                tx0 -= param_ / 2;
+                ty0 -= param_ / 2;
+                tx1 += param_ / 2;
+                ty1 += param_ / 2;
                 x0 = std::floorf(tx0);
                 y0 = std::floorf(ty0);
                 x1 = std::ceilf(tx1);
@@ -141,6 +165,14 @@ private:
                     x = x1 / param_ + center_x_;
                     y = y1 / param_ + center_y_;
                 }
+                break;
+            }
+            case Opcode::OffsetX: {
+                x += reverse ? param_ : -param_;
+                break;
+            }
+            case Opcode::OffsetY: {
+                y += reverse ? param_ : -param_;
                 break;
             }
             default:;
