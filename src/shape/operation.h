@@ -13,7 +13,7 @@ public:
     enum class Opcode : char {
         Union, Intersection, Difference,
         Rotate, Scale, Round, Blur, Outline,
-        OffsetX, OffsetY   // TODO
+        OffsetX, OffsetY
     };
 
     Operation(Opcode opcode, ShapePtr opr1, ShapePtr opr2)

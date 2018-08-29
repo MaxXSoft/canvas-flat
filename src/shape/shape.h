@@ -22,11 +22,11 @@ public:
     virtual float GetSDF(float x, float y) const = 0;
     virtual Rect GetDrawArea() const = 0;
 
-    void set_color(const Color &color) { color_ = color; }
-    const Color &color() const { return color_; }
+    void set_color(const color::Color &color) { color_ = color; }
+    const color::Color &color() const { return color_; }
 
 protected:
-    Color color_;
+    color::Color color_;
 };
 
 using ShapePtr = std::shared_ptr<Shape>;
