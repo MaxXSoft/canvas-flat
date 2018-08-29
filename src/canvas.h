@@ -1,9 +1,7 @@
 #ifndef CANVASFLAT_CANVAS_H_
 #define CANVASFLAT_CANVAS_H_
 
-#include <fstream>
 #include <vector>
-#include <cmath>
 #include <utility>
 
 #include "color/color.h"
@@ -16,39 +14,13 @@ namespace cvf {
 
 class Canvas {
 public:
-    Canvas(int width, int height) : backcolor_(0U) {
+    Canvas(int width, int height) {
         set_size(width, height);
-        anti_aliasing_ = false;
     }
 
     void Redraw() {
-        // draw background
-        auto p = image_buffer_.data();
-        for (int y = 0; y < height_; ++y) {
-            for (int x = 0; x < width_; ++x) {
-                *p++ = backcolor_.red;
-                *p++ = backcolor_.green;
-                *p++ = backcolor_.blue;
-            }
-        }
-        // draw shapes
-        for (const auto &i : shapes_) {
-            auto area = i->GetDrawArea();
-            for (int y = area.top; y <= area.bottom; ++y) {
-                for (int x = area.left; x <= area.right; ++x) {
-                    if (x < 0 || y < 0 || x >= width_ || y >= height_) {
-                        continue;
-                    }
-                    auto p = image_buffer_.data() + (y * width_ + x) * 3;
-                    auto pixel = GetPixel(x, y, i);
-                    if (pixel) {
-                        AlphaBlendX(p[0], pixel.red, pixel.alpha);
-                        AlphaBlendX(p[1], pixel.green, pixel.alpha);
-                        AlphaBlendX(p[2], pixel.blue, pixel.alpha);
-                    }
-                }
-            }
-        }
+        render_->ReadBuffer(image_buffer_.data(), width_, height_);
+        render_->Redraw(backcolor_, shapes_);
     }
 
     void Export(const char *path) {
@@ -68,10 +40,9 @@ public:
         height_ = height;
         image_buffer_.resize(width_ * height_ * 3);
     }
-    void set_anti_aliasing(bool anti_aliasing) {
-        anti_aliasing_ = anti_aliasing;
+    void set_backcolor(const color::Color &backcolor) {
+        backcolor_ = backcolor;
     }
-    void set_backcolor(const Color &backcolor) { backcolor_ = backcolor; }
     void set_image_container(container::ImageContainerPtr image_container) {
         image_container_ = std::move(image_container);
     }
@@ -81,33 +52,15 @@ public:
 
     int width() const { return width_; }
     int height() const { return height_; }
-    bool anti_aliasing() const { return anti_aliasing_; }
-    const Color &backcolor() const { return backcolor_; }
-    const Color::Color8b *pixel() const { return image_buffer_.data(); }
+    const color::Color &backcolor() const { return backcolor_; }
+    const color::Color8b *pixel() const { return image_buffer_.data(); }
     const shape::ShapeList &shapes() const { return shapes_; }
 
 private:
-    using ImageBuffer = std::vector<Color::Color8b>;
-
-    void AlphaBlendX(Color::Color8b &x, Color::Color8b y, float alpha) {
-        x = static_cast<Color::Color8b>(x * (1 - alpha) + y * alpha);
-    }
-
-    Color GetPixel(float x, float y, const shape::ShapePtr &shape) {
-        auto sdf = shape->GetSDF(x, y);
-        auto color = shape->color();
-        if (anti_aliasing_) {
-            auto alpha = util::LinearMapping(sdf, -0.5, 0.5, 1, 0);
-            return Color(color.GetRGB(), color.alpha * alpha);
-        }
-        else {
-            return sdf <= 0.F ? color : nullptr;
-        }
-    }
+    using ImageBuffer = std::vector<color::Color8b>;
 
     int width_, height_;
-    bool anti_aliasing_;
-    Color backcolor_;
+    color::Color backcolor_;
     shape::ShapeList shapes_;
     ImageBuffer image_buffer_;
     container::ImageContainerPtr image_container_;
