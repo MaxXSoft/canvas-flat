@@ -39,6 +39,6 @@ int main(int argc, const char *argv[]) {
     }
     // draw & export
     canvas.Redraw();
-    canvas.Export(argc > 1 ? argv[1] : "export.png");
+    canvas.Export(argc > 1 ? argv[1] : "out/spiral.png");
     return 0;
 }
