@@ -16,6 +16,7 @@ using namespace cvf::shape;
 int main(int argc, const char *argv[]) {
     // create render
     auto render = std::make_unique<BasicRender>();
+    render->set_show_progress(true);
     render->set_anti_aliasing(true);
     // create canvas
     Canvas canvas(512, 512);
