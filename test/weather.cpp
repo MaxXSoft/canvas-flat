@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
     canvas.set_image_container(std::make_unique<PngContainer>());
     // create icon background
     auto cx = canvas.width() / 2, cy = canvas.height() / 2;
-    auto round_r = 180.F, org_r = Min(cx, cy) * 3.F / 4.F;
+    auto round_r = cx * 0.35F, org_r = Min(cx, cy) * 3.F / 4.F;
     auto r = org_r - round_r;
     ShapePtr bg = std::make_shared<Rectangle>
             (cx - r, cy - r, r * 2);
