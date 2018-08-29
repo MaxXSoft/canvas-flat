@@ -53,17 +53,17 @@ private:
 
     void DrawShape(const shape::ShapePtr &shape) {
         // get draw area
-        auto area = shape->GetDrawArea();
-        area.left = util::Max(area.left, 0);
-        area.top = util::Max(area.top, 0);
-        area.right = util::Min(area.right, width_ - 1);
-        area.bottom = util::Min(area.bottom, height_ - 1);
+        shape::Rect area = shape->GetDrawArea(), draw;
+        draw.left = util::Max(area.left, 0);
+        draw.top = util::Max(area.top, 0);
+        draw.right = util::Min(area.right, width_ - 1);
+        draw.bottom = util::Min(area.bottom, height_ - 1);
         // draw pixels in area
         auto color = shape->color();
         if (color.is_solid()) {
             auto rgba = color.GetColor();
-            for (int y = area.top; y <= area.bottom; ++y) {
-                for (int x = area.left; x <= area.right; ++x) {
+            for (int y = draw.top; y <= draw.bottom; ++y) {
+                for (int x = draw.left; x <= draw.right; ++x) {
                     // calculate the pointer of current pixel
                     auto p = buffer_ + (y * width_ + x) * 3;
                     // draw pixel
@@ -79,12 +79,13 @@ private:
         else {   // non-solid color
             float aw = area.right - area.left + 1;
             float ah = area.bottom - area.top + 1;
-            for (int y = area.top; y <= area.bottom; ++y) {
-                for (int x = area.left; x <= area.right; ++x) {
+            for (int y = draw.top; y <= draw.bottom; ++y) {
+                for (int x = draw.left; x <= draw.right; ++x) {
                     // calculate the pointer of current pixel
                     auto p = buffer_ + (y * width_ + x) * 3;
                     // get current color
-                    auto rgba = color.GetColor(x / aw, y / ah);
+                    auto rgba = color.GetColor((x - area.left) / aw,
+                            (y - area.top) / ah);
                     // draw pixel
                     auto alpha = GetPixelVisible(x, y, shape) * rgba.alpha;
                     if (alpha > 0.F) {
