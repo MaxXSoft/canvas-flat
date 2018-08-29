@@ -6,6 +6,7 @@
 #include "../color/color.h"
 #include "../shape/shape.h"
 #include "../util/mathutil.h"
+#include "../util/progress.h"
 
 namespace cvf::render {
 
@@ -53,6 +54,7 @@ protected:
     unsigned char *buffer_;
     int width_, height_;
     bool anti_aliasing_, show_progress_;
+    util::Progress progress_;
 };
 
 using RenderPtr = std::unique_ptr<Render>;
